@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Play-Poker</title>
+        <link rel="icon" type="image/x-icon" href="icon.svg">
+        <link rel="stylesheet" href="form.css">
+
+    </head>
+
+    <style>
+
+        button {
+            width: 40%;
+            margin: auto;
+        }
+
+        input[type=number] {
+            width: 20%;
+        }
+
+        .gamble {
+            background-color: rgb(238, 238, 238);
+            margin: auto;
+            padding: 1%;
+        }
+
+        .bets {
+            background-color: rgb(209, 209, 209);
+            margin: auto;
+            padding: 1%;
+        }
+
+        .SB {
+            background-color: rgb(238, 238, 238);
+            margin: auto;
+            padding: 1%;
+        }
+
+        .log {
+            background-color: rgb(209, 209, 209);
+            margin: auto;
+            padding: 1%;
+        }
+
+    </style>
+
+    <body>
+ 
+        <div style="width:100%; background-color:gray; padding: 1%;" id="joinCode"></div>
+
+    <div class="main">
+        <h2 id="dispMoney"></h2>
+        
+        
+
+        <div class="gamble">
+
+
+                <label for="lname">Bet Money:</label>
+                <input type="number" id="betMoney" name="lname">
+                <button type="buttonon" style="width: 20%;" onclick="betSubmit()">Bet</button>
+
+                <p id="betFeedback"></p>
+
+            <p>
+                <button type ="button" onclick="call()">Call</button>
+                <button>Fold</button>
+            </p>
+        </div>
+
+        <div class = "bets">
+            <h2>Bets</h2>
+            <p id="sb"></p>
+
+        </div>
+
+        <div class = "SB">
+            <h2>Current Scores</h2>
+        </div>
+
+        <div class = "log">
+            <h2>Log</h2>
+        </div>
+    </div>
+
+        <script>
+            var userMoney = 100;
+            var highestBet = 20;
+            var betAmount = 0;
+            var joinCode = Math.floor(Math.random() * 100) + 1;
+
+            function call() {
+
+                if (userMoney < highestBet  || betAmount >= highestBet) {
+                    document.getElementById("betFeedback").innerHTML = "You cannot call";
+                }
+                else {
+                    userMoney = (userMoney +  + betAmount) - highestBet;
+                    document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+                    document.getElementById("betFeedback").innerHTML = 'You called';   
+                }
+
+            }
+            
+
+            function betSubmit() {
+                betAmount = document.getElementById("betMoney").value;
+                document.getElementById("betMoney").innerHTML = "0";
+
+                if (betAmount > userMoney) {
+                    document.getElementById("betFeedback").innerHTML = "You don't have that much money.";
+                }
+                else if (betAmount < 0) {
+                    document.getElementById("betFeedback").innerHTML = "Please bet an amount of at least 0";
+                    document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+                }
+                else {
+                    userMoney = userMoney - betAmount;
+                    document.getElementById("betFeedback").innerHTML = "Bet submitted - waiting for other players.";
+                    document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+                    let highestToLowest = numbers.sort((a, b) => b-a);
+                    document.getElementById("sb").innerHTML = highestToLowest;
+
+                }
+
+                if (betAmount > highestBet) {
+                    highestBet = betAmount;
+                }
+            }
+
+            let numbers = [highestBet, betAmount, 1, 2, 12, 15, 10]
+            let highestToLowest = numbers.sort((a, b) => b-a);
+
+            document.getElementById("sb").innerHTML = highestToLowest;
+
+            document.getElementById("joinCode").innerHTML = 'Join Code: ' + joinCode;
+            document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+            
+
+
+        </script>
+
+    </body>
+
+</html>
