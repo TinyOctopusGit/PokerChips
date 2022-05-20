@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Play-Poker</title>
+        <link rel="icon" type="image/x-icon" href="icon.svg">
+        <link rel="stylesheet" href="form.css">
+
+    </head>
+
+    <style>
+
+        button {
+            width: 40%;
+            margin: auto;
+        }
+
+        input[type=number] {
+            width: 40%;
+        }
+
+        form {border: 0px;}
+
+
+    </style>
+
+    <body>
+ 
+        <div style="width:100%; background-color:#04AA6D; padding: .01%;">
+            <h2 id="joinCode"></h2>
+        </div>
+
+    <div class="main">
+
+        <div class="money">
+            <h2 id="dispMoney" >Current Money: 0</h2> <h2 id="dispPool" >Pool: 0</h2>
+        </div>
+
+        <div class="gamble" id="gamble">
+
+            <form action="PokerJoin.html">
+                <label for="lname" style="font-size: large;">Bet:</label>
+                <input type="number" id="betMoney" placeholder="Enter amount" name="lname">
+                <button type="submit" style="width: 20%;" onclick="betSubmit() + endTurn()">Bet</button>
+            </form>
+                <p id="betFeedback"></p>
+
+            <form>
+                <button type ="submit" onclick="call() + endTurn()">Call</button>
+            </form>
+            <br>
+            <form>
+                <button type="submit">Fold</button>
+            </form>
+            
+        </div>
+
+        <div class = "bets">
+            <h2>Bets</h2>
+            <p id="sb"></p>
+
+        </div>
+
+        <div class = "SB">
+            <h2>Current Scores</h2>
+        </div>
+
+        <div class = "log">
+            <h2>Log</h2>
+        </div>
+    </div>
+
+        <script>
+            var userMoney = 100;
+            var highestBet = 20;
+            var betAmount = 0;
+            var joinCode = Math.floor(Math.random() * 100) + 1;
+            var pool = 500;
+
+            function call() {
+
+                if (userMoney < highestBet  || betAmount >= highestBet) {
+                    document.getElementById("betFeedback").innerHTML = "You cannot call";
+                }
+                else {
+                    userMoney = (userMoney +  + betAmount) - highestBet;
+                    document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+                    document.getElementById("betFeedback").innerHTML = 'You called';   
+                }
+
+            }
+            
+
+            function betSubmit() {
+                betAmount = document.getElementById("betMoney").value;
+                document.getElementById("betMoney").innerHTML = "0";
+
+                if (betAmount > userMoney) {
+                    document.getElementById("betFeedback").innerHTML = "You don't have that much money.";
+                }
+                else if (betAmount < 0) {
+                    document.getElementById("betFeedback").innerHTML = "Please bet an amount of at least 0";
+                    document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+                }
+                else {
+                    userMoney = userMoney - betAmount;
+                    document.getElementById("betFeedback").innerHTML = "Bet submitted - waiting for other players.";
+                    document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+                    let highestToLowest = numbers.sort((a, b) => b-a);
+                    document.getElementById("sb").innerHTML = highestToLowest;
+
+                }
+
+                if (betAmount > highestBet) {
+                    highestBet = betAmount;
+                }
+            }
+
+            let numbers = [highestBet, betAmount, 1, 2, 12, 15, 10]
+            let highestToLowest = numbers.sort((a, b) => b-a);
+
+            document.getElementById("sb").innerHTML = highestToLowest;
+
+            document.getElementById("joinCode").innerHTML = 'Join Code: ' + joinCode;
+            document.getElementById("dispMoney").innerHTML = 'Current Money: ' + userMoney;
+            
+            document.getElementById("dispPool").innerHTML = 'Pool: ' + pool;
+
+
+        </script>
+
+    <script>
+    function endTurn() {
+      var playerturn = document.getElementById("gamble");
+      if (playerturn.style.display === "none") {
+        playerturn.style.display = "block";
+      } else {
+        document.getElementById("gamble").innerHTML = 'Bet submitted, waiting for other players';
+      }
+    }
+    </script>
+
+    </body>
+
+</html>

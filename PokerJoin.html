@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Join</title>
+    <link rel="icon" type="image/x-icon" href="icon.svg">
+    <link rel="stylesheet" href="form.css">
+
+</head>
+
+
+<body>
+
+<div class="main">
+
+    <h2>Join Table</h2>
+
+
+    <form id="joinForm">
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+    
+        <label for="psw"><b>Join Code</b></label>
+        <input type="text" placeholder="XXX XXX XXX" name="table_id" required>
+            
+        <button type="submit">Join</button>
+      </div>
+    </form>
+    
+    <h2>Create Table</h2>
+    
+    <form action="createTable">
+    
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+    
+        <label for="psw"><b>Starting Amount</b></label>
+        <input type="number" placeholder="Enter amount" name="startamount" required>
+            
+        <button type="submit">Create</button>
+      </div>
+    
+    </form>
+    
+</div>
+
+<script>
+
+  window.addEventListener( "load", function () {
+  function sendJoin() {
+    const XHR = new XMLHttpRequest();
+
+    // Bind the FormData object and the form element
+    const FD = new FormData( joinForm );
+
+    // Define what happens on successful data submission
+    //XHR.addEventListener( "load", function(event) {
+    //  alert( event.target.responseText );
+    //} );
+
+    // Define what happens in case of error
+    //XHR.addEventListener( "error", function( event ) {
+    //  alert( 'Oops! Something went wrong.' );
+    //} );
+
+    // Set up our request
+    XHR.open( "POST", "https://poker.thestyles.xyz/add_user" );
+
+    // The data sent is what the user provided in the form
+    XHR.send( FD );
+  }
+
+  // Access the form element...
+  const form = document.getElementById( "joinForm" );
+
+  // ...and take over its submit event.
+  form.addEventListener( "submit", function ( event ) {
+    event.preventDefault();
+
+    sendJoin();
+  } );
+} );
+
+window.addEventListener( "load", function () {
+function sendTable() {
+  const XHR = new XMLHttpRequest();
+
+  // Bind the FormData object and the form element
+  const FD = new FormData( createTable );
+
+  // Define what happens on successful data submission
+  XHR.addEventListener( "load", function(event) {
+    alert( event.target.responseText );
+  } );
+
+  // Define what happens in case of error
+  XHR.addEventListener( "error", function( event ) {
+    alert( 'Oops! Something went wrong.' );
+  } );
+
+  // Set up our request
+  XHR.open( "POST", "https://poker.thestyles.xyz/create_table" );
+
+  // The data sent is what the user provided in the form
+  XHR.send( FD );
+}
+
+// Access the form element...
+const form = document.getElementById( "createTable" );
+
+// ...and take over its submit event.
+form.addEventListener( "submit", function ( event ) {
+  event.preventDefault();
+
+  sendTable();
+} );
+} );
+
+</script>
+
+</body>
+
+</html>
